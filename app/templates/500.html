@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-    <h1>Shucks. An unexpected error has occurred</h1>
-    <p><a href="{{ url_for('index') }}">Back</a></p>
+    <h1>500 • What'd you do?</h1>
+
+    <div class="gif">
+    	<img src="{{ url_for('static', filename='img/500.gif') }}">
+	</div>
+
+    <p><a href="{{ url_for('index') }}">Go back home</a></p>
 {% endblock %}

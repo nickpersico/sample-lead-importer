@@ -28,9 +28,9 @@ def index():
 
 		return redirect(url_for('lead_import'))
 
-	return render_template('index.html', title="Index page", form=form)
+	return render_template('index.html', form=form)
 
 # Lead Import View
 @app.route('/lead-import')
 def lead_import():
-	return render_template('lead_import.html', title="Importing Sample Leads into Close.io")
+	return render_template('lead_import.html', title="Importing Leads into Close.io")

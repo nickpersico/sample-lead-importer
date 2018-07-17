@@ -1,5 +1,10 @@
 {% extends 'bootstrap/base.html' %}
 
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+{% endblock %}
+
 {% block title %}
     {% if title %}{{ title }} - Close.io Sample Lead Importer{% else %}Close.io Sample Lead Importer{% endif %}
 {% endblock %}
@@ -16,17 +21,16 @@
                 </button>
                 <a class="navbar-brand" href="{{ url_for('index') }}">Close.io Sample Lead Importer</a>
             </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('index') }}">Home</a></li>
-                </ul>
-            </div>
         </div>
     </nav>
 {% endblock %}
 
 {% block content %}
     <div class="container">
+
         {% block app_content %}{% endblock %}
+
+        {% include "footer.html" %}
+
     </div>
 {% endblock %}
