@@ -4,14 +4,14 @@ from wtforms.validators import DataRequired, Email
 
 class APIKeyForm(FlaskForm):
 
-	email = StringField('Your Close.io Email', validators=[DataRequired(), Email()])
+	#email = StringField('Your Close.io Email', validators=[DataRequired(), Email()])
 	api_key = StringField('Your Close.io API Key', validators=[DataRequired()])
 
 	list_type = SelectField(
-		'Which type of sample list do you want to import?',
+		'Choose a sample lead list:',
 		choices=[
-			('b2b', 'B2B (You sell to companies)'),
-			('b2c', 'B2C (You sell to individuals)')
+			('b2b', 'B2B (Your leads are businesses)'),
+			('b2c', 'B2C (Your leads are people)')
 		],
 		validators=[DataRequired()]
 	)
