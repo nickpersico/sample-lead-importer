@@ -1,5 +1,6 @@
 # mac folder file
 .DS_Store
+*.json
 
 # Database
 *.db
