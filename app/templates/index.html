@@ -1,26 +1,28 @@
 {% extends "base.html" %}
 {% import 'bootstrap/wtf.html' as wtf %}
 
-{% block head %}
-{{ super() }}
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script>
-    $(function () { 
-        $("#form-load").load("/importing-leads"); 
-    });
-</script>
-{% endblock %}
-
-
 {% block app_content %}
 	    <h1>Sample Lead Importer for Close.io</h1>
 	    <h4>Use this handy tool to automatically import a list of leads into Close.io so you can test out built-in calling, SMS, and email.</h4>
 	    <hr>
 	    <br>
 	   {% if form.validate_on_submit() %}
-	    <div id="form-load">
-	    	<h3>Importing Leads ...</h3>
-	    </div>
+			{% with errors = get_flashed_messages(category_filter=["error"]) %}
+				{% if errors %}
+				    {% for message in errors %}
+				    	<h4>Error: {{ message }}. <a href="{{ url_for('index') }}">Try again</a>.</h4>
+				    {% endfor %}
+				{% endif %}
+			{% endwith %}
+
+			{% with success = get_flashed_messages(category_filter=["success"]) %}
+				{% if success %}
+				    {% for message in success %}
+				    	<h4>Success! View your Leads <a href="{{ message }}">here</a>.</h4>
+				    {% endfor %}
+				{% endif %}
+			{% endwith %}
+
 	    {% else %}
 	    	<div class="row">
 	        	<div class="col-md-4">

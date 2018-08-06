@@ -1,37 +1,27 @@
 from flask import render_template, redirect, url_for, flash, request
 from app import app
 from app.forms import APIKeyForm
-import time
 
 # Close.io
 from _closeio import run_import
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-
     form = APIKeyForm()
+    if form.validate_on_submit():
 
-    return render_template('index.html', form=form)
+        import_result = run_import(api_key=form.api_key.data)
 
+        # Janky error handling
+        if import_result == 'custom_field_error':
+            flash('Please delete the Sample Custom Fields from your Close.io organization', 'error')
 
-@app.route('/importing-leads')
-def ajax_index():
+        if import_result == 'bad_api_key':
+            flash('Your API key was invalid', 'error')
 
-    form = APIKeyForm()
+        # Send the URL to the leads
+        else:
+            flash('{}'.format(import_result), 'success')
 
-    closeio_import = run_import(
-        api_key=form.api_key.data,
-        list_type=form.list_type.data
-    )
+    return render_template('index.html',  title='Close.io Sample Lead Importer', form=form)
 
-    flash('{}'.format(
-            closeio_import
-        )
-    )
-
-    return redirect(url_for('lead_import'))
-
-# Lead Import View
-@app.route('/lead-import')
-def lead_import():
-    return render_template('lead_import.html', title="Importing Leads into Close.io")
