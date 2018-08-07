@@ -7,21 +7,20 @@
 	    <hr>
 	    <br>
 	   {% if form.validate_on_submit() %}
-			{% with errors = get_flashed_messages(category_filter=["error"]) %}
-				{% if errors %}
-				    {% for message in errors %}
-				    	<h4>Error: {{ message }}. <a href="{{ url_for('index') }}">Try again</a>.</h4>
-				    {% endfor %}
-				{% endif %}
-			{% endwith %}
+	   		{% set errors = get_flashed_messages(category_filter=["error"]) %}
+	   		{% set success = get_flashed_messages(category_filter=["success"]) %}
 
-			{% with success = get_flashed_messages(category_filter=["success"]) %}
-				{% if success %}
-				    {% for message in success %}
-				    	<h4>Success! Start making test calls and emails in Close.io <a href="{{ message }}">here</a>.</h4>
-				    {% endfor %}
-				{% endif %}
-			{% endwith %}
+			{% if errors %}
+			    {% for message in errors %}
+			    	<h4>Error: {{ message }}. <a href="{{ url_for('index') }}">Try again</a>.</h4>
+			    {% endfor %}
+			{% endif %}
+
+			{% if success and not errors %}
+			    {% for message in success %}
+			    	<h4>Success! Start making test calls and emails in Close.io <a href="{{ message }}">here</a>.</h4>
+			    {% endfor %}
+			{% endif %}
 
 	    {% else %}
 	    	<div class="row">
