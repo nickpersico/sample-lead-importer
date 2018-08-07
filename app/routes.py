@@ -19,9 +19,11 @@ def index():
         if import_result == 'bad_api_key':
             flash('Your API key was invalid', 'error')
 
+        if import_result == 'smartview_create_error':
+            flash('There was an error creating your smartview', 'error')
+
         # Send the URL to the leads
         else:
             flash('{}'.format(import_result), 'success')
 
     return render_template('index.html',  title='Close.io Sample Lead Importer', form=form)
-
