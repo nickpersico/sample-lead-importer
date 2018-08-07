@@ -10,7 +10,7 @@ def index():
     form = APIKeyForm()
     if form.validate_on_submit():
 
-        import_result = run_import(api_key=form.api_key.data)
+        import_result = run_import(api_key=form.api_key.data, list_type=form.list_type.data)
 
         # Janky error handling
         if import_result == 'custom_field_error':

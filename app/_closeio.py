@@ -2,7 +2,7 @@ from closeio_api import Client as CloseIO_API
 from get_sample_lead_data import generate_lead_data
 import json
 
-def run_import(api_key):
+def run_import(api_key, list_type):
 
 	import_status = ''
 	api = CloseIO_API(api_key)
@@ -47,7 +47,7 @@ def run_import(api_key):
 
 	### Import Sample Leads
 	print "... Creating Sample Leads"
-	sample_lead_data = generate_lead_data(custom_field_ids=custom_field_ids)
+	sample_lead_data = generate_lead_data(custom_field_ids=custom_field_ids, list_type=list_type)
 
 	for lead in sample_lead_data:
 		try:
@@ -60,20 +60,12 @@ def run_import(api_key):
 	print "... Creating Smart Views"
 	smart_view_queries = [
 		{
-			'name': '[SAMPLE] B2B Test Calling & Email',
-			'query': '"custom.Lead Source (Sample)":"Sample Lead Importer" "custom.List Type (Sample)":"B2B" has:phone_numbers has:email_addresses'
+			'name': '[SAMPLE] {} Leads w/ Phone and Email'.format(list_type),
+			'query': '"custom.Lead Source (Sample)":"Sample Lead Importer" "custom.List Type (Sample)":"{}" has:phone_numbers has:email_addresses sort:display_name'.format(list_type)
 		},
 		{
-			'name': '[SAMPLE] B2C Test Calling & Email',
-			'query': '"custom.Lead Source (Sample)":"Sample Lead Importer" "custom.List Type (Sample)":"B2C" has:phone_numbers has:email_addresses'
-		},
-		{
-			'name': '[SAMPLE] B2B Sample Leads',
-			'query': '"custom.Lead Source (Sample)":"Sample Lead Importer" "custom.List Type (Sample)":"B2B"'
-		},
-		{
-			'name': '[SAMPLE] B2C Sample Leads',
-			'query': '"custom.Lead Source (Sample)":"Sample Lead Importer" "custom.List Type (Sample)":"B2C"'
+			'name': '[SAMPLE] {} Sample Leads'.format(list_type),
+			'query': '"custom.Lead Source (Sample)":"Sample Lead Importer" "custom.List Type (Sample)":"{}" sort:display_name'.format(list_type)
 		}
 	]
 
@@ -81,6 +73,6 @@ def run_import(api_key):
 		create_smart_view = api.post('saved_search', data=query)
 		print "... {} Smart View added".format(query['name'])
 
-	import_status = 'https://app.close.io/search/%22custom.Lead%20Source%20%28Sample%29%22%3A%22Sample%20Lead%20Importer%22'
+	import_status = 'https://app.close.io/search/%22custom.Lead%20Source%20(Sample)%22%3A%22Sample%20Lead%20Importer%22%20has%3Aphone_numbers%20has%3Aemail_addresses/'
 
 	return import_status

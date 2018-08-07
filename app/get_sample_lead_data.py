@@ -1,9 +1,16 @@
 import json
 import csv
-from sample_lead_data import lead_data
+from sample_lead_data import B2B_LEAD_DATA
+from sample_lead_data import B2C_LEAD_DATA
 from flask import url_for
 
-def generate_lead_data(custom_field_ids):
+def generate_lead_data(custom_field_ids, list_type):
+
+	# Which list type is it?
+	if list_type == 'B2B':
+		lead_data = B2B_LEAD_DATA
+	if list_type == 'B2C':
+		lead_data = B2C_LEAD_DATA
 
 	# Retrieve custom field IDs that were generated in the org
 	custom_field_id_source = custom_field_ids[0]
